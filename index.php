@@ -4,8 +4,8 @@ require("./funcoes.php");
 
 $funcionarios = lerArquivo ("empresaX.json");
 
-if(isset($_GET["buscarFuncionario"])) {
-    $funcionarios = buscarFuncionario($funcionarios, $_GET["buscarFuncionario"]);
+if(isset($_GET["filtro"]) && $_GET["filtro"] != "") {
+    $funcionarios = buscarFuncionario($funcionarios, $_GET["filtro"]);
 }
 
 ?>
@@ -22,19 +22,52 @@ if(isset($_GET["buscarFuncionario"])) {
 <body>
     <main>
 
-    <h1>Tabela de Funcionários da Empresa X</h1>
+    <h1>Funcionários da empresa X</h1>
 
-    <form>
-        <input type="text" name="buscarFuncionario" placeholder="buscarFuncionario" 
-        value="<?= isset ($_GET["buscarFuncionario"]) ? $_GET["buscarFuncionario"] : ""?>">
+    <p style="text-align: center">
+      A empresa conta com <em> <?= count($funcionarios) ?> </em> funcionários.
+    </p>
 
-        <button>Buscar</button>
+    <form method="GET" class="search-form">
+
+      <div class="input-group" style="flex: 1">
+
+        <label>Pesquisar por nome</label>
+
+        <input type="search" placeholder="Digite o nome" name="filtro" 
+          value="<?= isset($_GET["filtro"]) ? $_GET["filtro"] : "" ?>" />
+
+      </div>
+
+      <button class="material-icons">
+        person_search
+      </button>
+
+    </form>
+    <button id="buttonAdcFuncionario">Adicionar Funcionário</button>
+    <br /> <br />
+
+    <div class="modal-form">
+
+    <form id="form-funcionario">
+        <h1>Adicionar funcionário</h1>
+        <input type="text" placeholder="Digite o id" name="id" />
+        <input type="text" placeholder="Digite o primeiro nome" name="first_name" />
+        <input type="text" placeholder="Digite o sobrenome" name="last_name" />
+        <input type="text" placeholder="Digite o e-mail" name="email" />
+        <input type="text" placeholder="Digite o sexo" name="gender" />
+        <input type="text" placeholder="Digite o IP" name="ip_address" />
+        <input type="text" placeholder="Digite o país" name="country" />
+        <input type="text" placeholder="Digite o departamento" name="department" />
+        <button>Salvar</button>
     </form>
 
+    </div>
+    
     <table border="13">
         <tr>
             <th>Id</th>
-            <th>Nome</th>
+            <th>Nome</th>  
             <th>Sobrenome</th>
             <th>Email</th>
             <th>Sexo</th>
@@ -46,6 +79,7 @@ if(isset($_GET["buscarFuncionario"])) {
         <?php
         foreach($funcionarios as $funcionario) :
         ?>
+        <tr>
             <th><?= $funcionario->id ?></th>
             <th><?= $funcionario->first_name ?></th>
             <th><?= $funcionario->last_name ?></th>

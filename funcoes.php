@@ -8,12 +8,31 @@ function lerArquivo($nomeArquivo) {
     return $jsonArray;
 }
 
-function buscarFuncionario ($funcionarios, $first_name) {
+function buscarFuncionario ($funcionarios, $filtro) {
+
     $funcionariosFiltro = [];
+
     foreach($funcionarios as $funcionario) {
-        if($funcionario -> first_name == $first_name) {
+
+        if(
+            strpos($funcionario -> first_name,  $filtro) !== false
+            ||
+            strpos($funcionario -> last_name,  $filtro) !== false
+            ||
+            strpos($funcionario -> department,  $filtro) !== false
+        ){
             $funcionariosFiltro[] = $funcionario;
         }
     }
     return $funcionariosFiltro;
+}
+
+function adicionarFuncionarios ($nomeArquivo, $novoFuncionario) {
+    $funcionarios = lerArquivo($nomeArquivo);
+
+    $funcionarios[] = $novoFuncionario;
+
+    $json = json_encode($funcionarios);
+
+    file_put_contents($nomeArquivo, $json);
 }
