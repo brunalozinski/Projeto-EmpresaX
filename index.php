@@ -17,6 +17,8 @@ if(isset($_GET["filtro"]) && $_GET["filtro"] != "") {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Empresa X</title>
 </head>
 <body>
@@ -24,7 +26,7 @@ if(isset($_GET["filtro"]) && $_GET["filtro"] != "") {
 
     <h1>Funcionários da empresa X</h1>
 
-    <p style="text-align: center">
+    <p class="text-align" style="text-align: center">
       A empresa conta com <em> <?= count($funcionarios) ?> </em> funcionários.
     </p>
 
@@ -32,39 +34,56 @@ if(isset($_GET["filtro"]) && $_GET["filtro"] != "") {
 
       <div class="input-group" style="flex: 1">
 
-        <label>Pesquisar por nome</label>
+        <!-- <label>Pesquisar por nome</label> -->
 
-        <input type="search" placeholder="Digite o nome" name="filtro" 
+        <input type="search" placeholder="Buscar Funcionário" name="filtro" 
           value="<?= isset($_GET["filtro"]) ? $_GET["filtro"] : "" ?>" />
 
       </div>
 
       <button class="material-icons">
-        person_search
-      </button>
-
+      <span class="material-icons">search</span></button>
+      
     </form>
-    <button id="buttonAdcFuncionario">Adicionar Funcionário</button>
+
+    <!-- <button id="buttonAdcFuncionario">Adicionar Funcionário</button> -->
+
     <br /> <br />
 
-    <div class="modal-form">
+    <div id="buttonAdcFuncionario">
+        <p>+</p>
+    </div>
 
-    <form id="form-funcionario">
+    <div id="container_modal">
+        <div id="bg"></div>
+        <div class="modal-form">
+
+
+      <form id="form-funcionario" action="acoes.php" method="POST">
+
         <h1>Adicionar funcionário</h1>
         <input type="text" placeholder="Digite o id" name="id" />
         <input type="text" placeholder="Digite o primeiro nome" name="first_name" />
         <input type="text" placeholder="Digite o sobrenome" name="last_name" />
         <input type="text" placeholder="Digite o e-mail" name="email" />
-        <input type="text" placeholder="Digite o sexo" name="gender" />
+
+        <select name="gender" id="gender" required placeholder="Sexo">
+          <option value="" selected disabled>Selecione</option>
+          <option value="Male">Masculino</option>
+          <option value="Female">Feminino</option>
+        </select>
+
         <input type="text" placeholder="Digite o IP" name="ip_address" />
         <input type="text" placeholder="Digite o país" name="country" />
         <input type="text" placeholder="Digite o departamento" name="department" />
+
         <button>Salvar</button>
-    </form>
+      </form>
 
     </div>
-    
+
     <table border="13">
+
         <tr>
             <th>Id</th>
             <th>Nome</th>  
@@ -74,26 +93,38 @@ if(isset($_GET["filtro"]) && $_GET["filtro"] != "") {
             <th>Endereço IP</th>
             <th>País</th>
             <th>Departamento</th>
+            <th>Editar</th>
+            <th>Deletar</th>
         </tr>
 
         <?php
         foreach($funcionarios as $funcionario) :
         ?>
+
         <tr>
-            <th><?= $funcionario->id ?></th>
-            <th><?= $funcionario->first_name ?></th>
-            <th><?= $funcionario->last_name ?></th>
-            <th><?= $funcionario->email ?></th>
-            <th><?= $funcionario->gender ?></th>
-            <th><?= $funcionario->ip_address ?></th>
-            <th><?= $funcionario->country ?></th>
-            <th><?= $funcionario->department ?></th>
+            <td><?= $funcionario->id ?></td>
+            <td><?= $funcionario->first_name ?></td>
+            <td><?= $funcionario->last_name ?></td>
+            <td><?= $funcionario->email ?></td>
+            <td><?= $funcionario->gender ?></td>
+            <td><?= $funcionario->ip_address ?></td>
+            <td><?= $funcionario->country ?></td>
+            <td><?= $funcionario->department ?></td>
+
+            <td><a href="index.html"><button class="material-icons">
+            <span class="material-icons">edit</span> </a>
+            </button></td>
+            <td><button class="material-icons" onclick="deletar(<?= $funcionario->id ?>)">
+              <span class="material-icons">clear</span>
+            </button></td>
         </tr>
+        
         <?php
         endforeach
         ?>
 
     </table>
     </main>
+
 </body>
 </html>
