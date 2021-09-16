@@ -111,9 +111,11 @@ if(isset($_GET["filtro"]) && $_GET["filtro"] != "") {
             <td><?= $funcionario->country ?></td>
             <td><?= $funcionario->department ?></td>
 
-            <td><a href="index.html"><button class="material-icons">
-            <span class="material-icons">edit</span> </a>
+           
+            <td><button class="material-icons" onclick="editar(<?= $funcionario->id ?>)">
+              <span class="material-icons">edit</span>
             </button></td>
+
             <td><button class="material-icons" onclick="deletar(<?= $funcionario->id ?>)">
               <span class="material-icons">clear</span>
             </button></td>
